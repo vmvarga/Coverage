@@ -5,20 +5,6 @@ Tool for analyzing domain security based on various data sources:
 - NTDS.dit dump
 - Hashcat output
 
-## Preparation
-
-To run the script, you need to have the output of ldapdomaindump, secretsdump and the result of a brute-force attack on the obtained *.ntds file
-
-```bash
-mkdir ldapdomaindump && cd ldapdomaindump
-ldapdomaindump -u vulnad.local\\Administrator -p "1qaz@WSX" 10.10.10.10
-
-cd .. && mkdir DUMP
-secretsdump.py vulnad.local/Administrator:1qaz@WSX@10.10.10.10 -outputfile DUMP/DUMP
-
-hashcat -m 1000 DUMP/DUMP.ntds -o DUMP/DUMP.ntds.out /usr/share/wordlists/rockyou.txt
-```
-
 ## Installation
 
 ### Using UV (Recommended)
@@ -31,6 +17,20 @@ uv run main.py -h
 ### Olm method
 ```bash
 pip install -r requirements.txt
+```
+
+## Preparation
+
+To run the script, you need to have the output of ldapdomaindump, secretsdump and the result of a brute-force attack on the obtained *.ntds file
+
+```bash
+mkdir ldapdomaindump && cd ldapdomaindump
+ldapdomaindump -u vulnad.local\\Administrator -p "1qaz@WSX" 10.10.10.10
+
+cd .. && mkdir DUMP
+secretsdump.py vulnad.local/Administrator:1qaz@WSX@10.10.10.10 -outputfile DUMP/DUMP
+
+hashcat -m 1000 DUMP/DUMP.ntds -o DUMP/DUMP.ntds.out /usr/share/wordlists/rockyou.txt
 ```
 
 ## Usage
