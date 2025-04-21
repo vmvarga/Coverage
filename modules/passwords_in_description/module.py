@@ -94,12 +94,13 @@ class PasswordsInDescriptionModule(IModule):
             not x["is_enabled"],  # True sorts after False, so we negate
             x["account"]  # Secondary sort by account name
         ))
-        
+        total_admins_enabled = sum(1 for user in findings if user["is_admin"])
         if not findings:
             return {}
             
         return {
             "template": self.template_path,
             "passwords_in_description": findings,
-            "total_found": len(findings)
+            "total_found": len(findings),
+            "total_admins_enabled": total_admins_enabled
         }

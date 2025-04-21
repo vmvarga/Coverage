@@ -22,7 +22,7 @@ class Pre2kModule(IModule):
         enabled = []
         disabled = []
         for comp_name, computer in domain_state.computers.items():
-            if self.get_hash(computer.sam_account_name.replace("$", "")) == computer.nt_hash:
+            if self.get_hash(computer.sam_account_name.replace("$", "").lower()) == computer.nt_hash:
                 if computer.enabled:
                     enabled.append({
                         "username": computer.sam_account_name,

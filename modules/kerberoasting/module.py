@@ -22,14 +22,16 @@ class KerberoastingModule(IModule):
                     "username": user.sam_account_name,
                     "spn": user.spn_list,
                     "password": mask_password(user.cracked_password),
-                    "is_domain_admin": domain_state.is_domain_admin(user.object_sid)
+                    "is_domain_admin": domain_state.is_domain_admin(user.sam_account_name)
                 }
                 all_users.append(user_data)
+        total_admins_enabled = sum(1 for user in all_users if user["is_domain_admin"])
         
         if not all_users:
             return {}
         return {
             "template": self.template_path,
             "all_users": all_users,
-            "total_found": len(all_users)
+            "total_found": len(all_users),
+            "total_admins_enabled": total_admins_enabled
         }
