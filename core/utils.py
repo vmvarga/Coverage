@@ -121,7 +121,7 @@ def get_domain_admin_recursive_groups(domain, da_groups: List[str]) -> List[str]
         List of SIDs for Domain Admins, Administrators and Enterprise Admins groups
     """    
     # Well-known RIDs for admin groups
-    da_groups = [domain.find_by_sid(e) for e in da_groups if type(e) == str]
+    da_groups = [group for group in [domain.find_by_sid(e) for e in da_groups if type(e) == str] if group is not None]
     #recursively get all members of the groups
     for group_name, group in domain.groups.items():
         for member in group.memberof:
