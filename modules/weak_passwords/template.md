@@ -1,7 +1,7 @@
 # Weak Passwords Vulnerability Report
 
 ## Summary
-Found {{ total_found }} users with weak passwords{% if total_admins_enabled > 0 %}, including {{ total_admins_enabled }} privileged and enabled accounts.{% else %}.{% endif %}
+Found {{ total_found }} users with weak passwords{% if total_admins_enabled > 0 %}, including {{ total_admins_enabled }} privileged and enabled accounts.{% else %}.{% endif %} As a result, passwords were recovered for {{ '%0.2f' | format((total_found/total_domain_users)*100) }}% of users.
 
 Weak passwords significantly increase the risk of unauthorized access to critical systems and sensitive data. If an attacker successfully compromises an account — especially one with elevated privileges — this can lead to full domain compromise, lateral movement across the network, data breaches, and disruption of business operations. The presence of active domain accounts with weak or compromised passwords presents a critical vulnerability in the organization's security posture.
 

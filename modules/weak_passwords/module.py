@@ -46,6 +46,7 @@ class WeakPasswordsModule(IModule):
                 })
         weak_password_users = weak_password_users + other_users
         total_admins_enabled = len([e for e in weak_password_users if e['is_domain_admin'] and e['enabled']])
+        total_domain_users = len(domain_state.users)
         if not weak_password_users:
             return {}
             
@@ -53,5 +54,6 @@ class WeakPasswordsModule(IModule):
             "template": self.template_path,
             "weak_password_users": weak_password_users,
             "total_found": len(weak_password_users),
-            "total_admins_enabled": total_admins_enabled
+            "total_admins_enabled": total_admins_enabled,
+            "total_domain_users": total_domain_users
         } 
