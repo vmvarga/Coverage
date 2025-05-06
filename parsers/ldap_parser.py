@@ -78,7 +78,8 @@ class GroupParser(BaseLdapParser):
                     memberof=[self.CN2name(e) for e in self.get_attribute(group_data, 'memberOf', [], is_list=True)],
                     members=self.get_attribute(group_data, 'member', [], is_list=True)
                 )
-                domain_state.add_group(group)
+                if group:
+                    domain_state.add_group(group)
             except Exception as e:
                 print(f"Error parsing group {self.get_attribute(group_data, 'name', 'unknown')}: {str(e)}")
 
