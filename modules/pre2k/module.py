@@ -2,7 +2,8 @@ from typing import Dict, Any
 from core.interfaces import IModule
 from core.domain_state import DomainState
 from core.utils import mask_password
-import hashlib,binascii
+from Crypto.Hash import MD4
+import binascii
 
 class Pre2kModule(IModule):
     def __init__(self):
@@ -13,7 +14,10 @@ class Pre2kModule(IModule):
         return self._template_path
     
     def get_hash(self, password: str) -> str:
-        return binascii.hexlify(hashlib.new("md4", password.encode("utf-16le")).digest()).decode()
+        """Calculate MD4 hash of password"""
+        md4 = MD4.new()
+        md4.update(password.encode("utf-16le"))
+        return md4.hexdigest()
 
     def run(self, domain_state: DomainState) -> Dict[str, Any]:
         """Run Pre-2000 compatibility check"""
