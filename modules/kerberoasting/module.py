@@ -4,8 +4,8 @@ from core.domain_state import DomainState
 from core.utils import mask_password
 
 class KerberoastingModule(IModule):
-    def __init__(self):
-        self._template_path = "template.md"
+    def __init__(self, template_language):
+        self._template_path = f"template_{template_language}.md"
     
     @property
     def template_path(self) -> str:
@@ -17,7 +17,7 @@ class KerberoastingModule(IModule):
         all_users = []
         
         for user in domain_state.users.values():
-            if user.has_spn and user.sam_account_name != 'krbtgt':
+            if user.has_spn and user.sam_account_name != 'krbtgt' and user.cracked_password:
                 user_data = {
                     "username": user.sam_account_name,
                     "spn": user.spn_list,

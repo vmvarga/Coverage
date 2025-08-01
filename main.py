@@ -29,6 +29,7 @@ def parse_arguments():
     parser.add_argument('-o', '--output', help='Path to output report file')
     parser.add_argument('-m', '--modules', help='Comma-separated list of modules to run (default: all)')
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose output')
+    parser.add_argument('-la', '--language', help='Template language ru,en')
     
     args = parser.parse_args()
     
@@ -37,7 +38,13 @@ def parse_arguments():
         if not all([args.ldd]):
             parser.error("--ldd, --ntds, and --hashcat are required")
     
+    if args.language and args.language not in ['en','ru']:
+        parser.error("Unsupported language")
+
     return args
+
+
+
 
 def setup_logging(debug: bool):
     """Setup logging based on debug flag"""
@@ -94,7 +101,7 @@ def main():
     hashcat_parser.parse(domain_state)
     
     # Load modules
-    module_loader = ModuleLoader(os.path.join(os.path.dirname(__file__), 'modules'))
+    module_loader = ModuleLoader(os.path.join(os.path.dirname(__file__), 'modules'),template_language=args.language)
     
     if args.modules:
         module_names = [name.strip() for name in args.modules.split(',')]

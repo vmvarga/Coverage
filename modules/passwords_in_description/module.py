@@ -6,8 +6,8 @@ from core.interfaces import IModule
 from core.utils import mask_password
 
 class PasswordsInDescriptionModule(IModule):
-    def __init__(self):
-        self._template_path = "template.md"
+    def __init__(self, template_language):
+        self._template_path = f"template_{template_language}.md"
     
     @property
     def template_path(self) -> str:

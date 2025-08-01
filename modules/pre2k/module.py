@@ -6,8 +6,8 @@ from Crypto.Hash import MD4
 import binascii
 
 class Pre2kModule(IModule):
-    def __init__(self):
-        self._template_path = "template.md"
+    def __init__(self, template_language):
+        self._template_path = f"template_{template_language}.md"
     
     @property
     def template_path(self) -> str:
@@ -26,19 +26,18 @@ class Pre2kModule(IModule):
         enabled = []
         disabled = []
         for comp_name, computer in domain_state.computers.items():
-            if self.get_hash(computer.sam_account_name.replace("$", "").lower()) == computer.nt_hash:
+            pre2kpass = computer.sam_account_name.replace("$", "").lower()
+            if self.get_hash(pre2kpass) == computer.nt_hash:
+                userdata = {
+                        "username": computer.sam_account_name,
+                        "password": pre2kpass,
+                        "status": computer.enabled
+                    }
                 if computer.enabled:
-                    enabled.append({
-                        "username": computer.sam_account_name,
-                        "password": computer.sam_account_name.replace("$", ""),
-                        "status": computer.enabled
-                    })
+                    enabled.append(userdata)
                 else:
-                    disabled.append({
-                        "username": computer.sam_account_name,
-                        "password": computer.sam_account_name.replace("$", ""),
-                        "status": computer.enabled
-                    })
+                    disabled.append(userdata)
+
         all_users = enabled + disabled
         
         if not all_users:

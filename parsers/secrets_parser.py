@@ -46,12 +46,12 @@ class SecretsParser(IParser):
         """Parse single line from NTDS file
         
         For .ntds files:
-        Expected format: domain.local\SamAccountName:rid:LM_hash:NT_hash
-        Example: domain.local\Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0
+        Expected format: domain.local\\SamAccountName:rid:LM_hash:NT_hash
+        Example: domain.local\\Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0
         
         For .ntds.cleartext files:
-        Expected format: domain.local\SamAccountName:CLEARTEXT:password
-        Example: domain.local\admin:CLEARTEXT:P@ssw0rd
+        Expected format: domain.local\\SamAccountName:CLEARTEXT:password
+        Example: domain.local\\admin:CLEARTEXT:P@ssw0rd
         """
         try:
             line = line.strip()

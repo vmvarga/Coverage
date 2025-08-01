@@ -5,8 +5,9 @@ from core.interfaces import IModule
 
 class ModuleLoader:
     """Module loader"""
-    def __init__(self, modules_dir: str):
+    def __init__(self, modules_dir: str, template_language='en'):
         self.modules_dir = modules_dir
+        self.template_language = template_language
     
     def load_modules(self) -> List[IModule]:
         """Load all modules from directory"""
@@ -48,7 +49,7 @@ class ModuleLoader:
             for attr_name in dir(module):
                 attr = getattr(module, attr_name)
                 if isinstance(attr, type) and issubclass(attr, IModule) and attr != IModule:
-                    return attr()
+                    return attr(self.template_language)
 
             return None
         except Exception as e:

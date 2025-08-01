@@ -3,8 +3,8 @@ from core.domain_state import DomainState
 from core.interfaces import IModule
 
 class UnconstrainedDelegationModule(IModule):
-    def __init__(self):
-        self._template_path = "template.md"
+    def __init__(self, template_language):
+        self._template_path = f"template_{template_language}.md"
     
     @property
     def template_path(self) -> str:
