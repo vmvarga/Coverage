@@ -111,7 +111,7 @@ def mask_password(password: str) -> str:
     else:
         return "***"
 
-def get_domain_admin_recursive_groups(domain, da_groups: List[str]) -> List[str]:
+def get_domain_admin_recursive_groups(domain, da_groups: List[str]) -> List[str]:    
     """Get SIDs of domain admin groups
     
     Args:
@@ -177,10 +177,8 @@ def is_user_in_domain_admin_groups(sam_account_name: str, domain) -> bool:
         f"S-1-5-32-544",  # Administrators
         f"{domain.domain_sid}-519"   # Enterprise Admins
     ]
-    count_groups = 0
-    while count_groups < len(da_groups):
-        count_groups = len(da_groups)
-        da_groups = get_domain_admin_recursive_groups(domain, da_groups)
-    
+        
+    da_groups = get_domain_admin_recursive_groups(domain, da_groups)
+
     admin_members = get_all_group_members(domain, da_groups)
     return sam_account_name in admin_members
