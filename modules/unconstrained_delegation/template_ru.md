@@ -1,24 +1,27 @@
-# Unconstrained Delegation Vulnerability Report
+### Неограниченная делегация
 
-## Summary
-Found {{ total_found }} accounts with unconstrained delegation enabled.
+**Уровень опасности:** [Высокий]{.high}
 
-Unconstrained delegation allows a system or service to impersonate users and access other services on their behalf without restriction. When enabled, the credentials (including Kerberos Ticket Granting Tickets, or TGTs) of any user who authenticates to the delegated system can be cached and reused. If an attacker compromises such a system, they can extract TGTs from memory and impersonate privileged users — including domain admins — across the domain. This exposes the environment to high-risk attacks such as Golden Ticket forging and full domain compromise.
+**Адрес:**
 
-## Vulnerable Accounts Details
-| Account | Type | Status |
+**Описание:**
+
+В ходе анализа обнаружено {{ total_found }} аккаунтов с включённой неограниченной делегацией. Неограниченная делегация позволяет системе или сервису выдавать себя за пользователей и получать доступ к другим сервисам от их имени без ограничений. При включении этой функции учётные данные (включая Kerberos Ticket Granting Tickets, или TGT) любого пользователя, прошедшего аутентификацию на делегированной системе, могут быть закэшированы и повторно использованы. Если злоумышленник скомпрометирует такую систему, он может извлечь TGT из памяти и выдавать себя за привилегированных пользователей — включая администраторов домена — по всему домену. Это подвергает среду высокорисковым атакам, таким как подделка Golden Ticket и полная компрометация домена.
+
+## Уязвимые аккаунты
+| Аккаунт| Тип | Статус |
 |---------|------|---------|
-{% for item in unconstrained_delegation %}| {{ item.account }} | {{ item.type }} | {% if item.is_enabled %}Enabled{% else %}Disabled{% endif %} |
+{% for item in unconstrained_delegation %}| {{ item.account }} | {{ item.type }} | {% if item.is_enabled %}Активен{% else %}Отключен{% endif %} |
 {% endfor %} 
 
-## Recommended Actions
+**Рекомендации по устранению:**
 
-- Identify and review all accounts and computers with unconstrained delegation enabled, especially those with elevated privileges or exposed to user authentication (e.g., domain-joined servers).
+- выявить и проверить все аккаунты и компьютеры с включённой неограниченной делегацией, особенно те, что обладают повышенными привилегиями или подвержены аутентификации пользователей (например, серверы, присоединённые к домену);
 
-- Disable unconstrained delegation on all accounts and systems unless strictly required for legacy application compatibility.
+- отключить неограниченную делегацию на всех аккаунтах и системах, если это не требуется строго для совместимости с устаревшими приложениями;
 
-- Where delegation is needed, use **constrained delegation** (`"Trust this user for delegation to specified services only"`) or **resource-based constrained delegation (RBCD)** as more secure alternatives.
+- там, где делегация необходима, использовать **ограниченную делегацию** (`"Доверять этому пользователю делегирование только указанным сервисам"`) или **ограниченную делегацию на основе ресурсов (RBCD)** как более безопасные альтернативы;
 
-- Isolate systems that require delegation into separate, hardened network segments and monitor them closely for unusual authentication behavior.
+- изолировать системы, требующие делегации, в отдельные, усиленные сетевые сегменты и тщательно мониторить их на предмет необычного поведения при аутентификации;
 
-- Regularly audit delegation settings via scripts or tools to prevent reintroduction of insecure configurations.
+- регулярно проводить аудит настроек делегации с помощью скриптов или инструментов, чтобы предотвратить повторное внедрение небезопасных конфигураций.
