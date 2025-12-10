@@ -1,22 +1,26 @@
-# Passwords in Description Vulnerability Report
+### Пароли в описании
 
-## Summary
-Found {{ total_found }} accounts with passwords in their descriptions{% if total_admins_enabled > 0 %}, including {{ total_admins_enabled }} privileged and enabled accounts.{% else %}.{% endif %}
+**Уровень опасности:** [Высокий]{.high}
 
-Storing passwords in the description field of Active Directory accounts exposes sensitive credentials in clear text to any user or process with read access to directory attributes. This significantly increases the risk of credential theft, especially if the affected accounts have administrative privileges or are active. An attacker with basic read access to the domain could easily harvest these passwords, potentially leading to unauthorized access, privilege escalation, and full domain compromise.
+**Адрес:**
 
-## Vulnerable Accounts Details
-| Account | Status | Admin Rights | Password | Description |
-|---------|---------|--------------|----------|----------|
-{% for item in passwords_in_description %}| {{ item.account }} | {% if item.is_enabled %}Enabled{% else %}Disabled{% endif %} | {% if item.is_admin %}Yes{% else %}No{% endif %} | {{ item.password }} | {{ item.description }}
+**Описание:**
+
+В ходе анализа обнаружено {{ total_found }} аккаунтов с паролями в описании{% if total_admins_enabled > 0 %}, включая {{ total_admins_enabled }} привилегированных и активных аккаунтов.{% else %}.{% endif %} Хранение паролей в поле описания аккаунтов Active Directory раскрывает чувствительные учетные данные в открытом виде любому пользователю или процессу с правом чтения атрибутов каталога. Это значительно увеличивает риск кражи учетных данных, особенно если затронутые аккаунты имеют административные привилегии или активны. Злоумышленник с базовым правом чтения домена может легко собрать эти пароли, что потенциально приведет к несанкционированному доступу, повышению привилегий и полной компрометации домена.
+
+**Уязвимые аккаунты:**
+
+| Аккаунт | Статус | Административные права | Пароль | Описание |
+|---------|--------|------------------------|--------|----------|
+{% for item in passwords_in_description %}| {{ item.account }} | {% if item.is_enabled %}Включен{% else %}Отключен{% endif %} | {% if item.is_admin %}Да{% else %}Нет{% endif %} | {{ item.password }} | {{ item.description }}
 {% endfor %} 
 
-## Recommended Actions
+**Рекомендации по устранению:**
 
-- Remove any plaintext passwords or other sensitive data from the description fields of all accounts.
+- удалить все пароли в открытом виде или другие чувствительные данные из полей описания всех аккаунтов;
 
-- Review account descriptions across the domain to ensure they do not contain confidential or security-relevant information.
+- провести проверку описаний аккаунтов по всему домену, чтобы убедиться, что они не содержат конфиденциальной или связанной с безопасностью информации;
 
-- Educate administrators and support staff on the risks of storing passwords or sensitive data in non-secure fields such as account descriptions.
+- обучить администраторов и сотрудников службы поддержки рискам хранения паролей или чувствительных данных в незащищенных полях, таких как описания аккаунтов;
 
-- Implement role-based access controls (RBAC) to restrict read access to account attributes where possible.
+- внедрить управление доступом на основе ролей (RBAC) для ограничения права чтения атрибутов аккаунтов, где это возможно.
