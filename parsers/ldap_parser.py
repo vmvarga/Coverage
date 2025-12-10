@@ -16,7 +16,7 @@ class BaseLdapParser:
     def load_data(self) -> None:
         """Load JSON data from file"""
         try:
-            with open(self.json_path, 'r') as f:
+            with open(self.json_path, 'r', encoding='utf-8') as f:
                 self.data = json.load(f)
         except Exception as e:
             raise ValidationError(f"Failed to load JSON data: {str(e)}")

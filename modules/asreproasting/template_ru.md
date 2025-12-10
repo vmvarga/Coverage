@@ -1,19 +1,23 @@
-# AS-REP Roasting Vulnerability Report
+### AS-REP Roasting
 
-## Summary
-Found {{ total_found }} accounts vulnerable to AS-REP Roasting{% if total_admins_enabled > 0 %}, including {{ total_admins_enabled }} privileged and enabled accounts.{% else %}.{% endif %}
-AS-REP Roasting targets user accounts that do not require Kerberos pre-authentication. An attacker can request authentication data (AS-REP) for such accounts without knowing their password and then perform offline brute-force or dictionary attacks to recover the clear-text password. If successful, this may lead to unauthorized access, privilege escalation, and further lateral movement within the network. The risk is especially critical if affected accounts have elevated privileges or are used for service operations.
+**Уровень опасности:** [Высокий]{.high}
 
-## Vulnerable Users
-| Username | Password | Status |
+**Адрес:**
+
+**Описание:**
+
+В ходе анализа обнаружено {{ total_found }} аккаунтов, уязвимых к атакам AS-REP Roasting{% if total_admins_enabled > 0 %}, включая {{ total_admins_enabled }} привилегированных и активных аккаунтов.{% else %}.{% endif %} AS-REP Roasting нацелен на пользовательские аккаунты, которые не требуют предварительной аутентификации Kerberos. Злоумышленник может запросить данные аутентификации (AS-REP) для таких аккаунтов без знания пароля, а затем провести оффлайн-атаки методом перебора или словарные атаки для восстановления пароля в открытом виде. В случае успеха это может привести к несанкционированному доступу, повышению привилегий и дальнейшему боковому движению по сети. Риск особенно критичен, если затронутые аккаунты обладают повышенными привилегиями или используются для сервисных операций.
+
+## Уязвимые пользователи
+| Имя пользователя | Пароль | Статус |
 |----------|----------|--------|
-{% for user in all_users %}| {{ user.username }} | {{ user.password }} | {{ "Enable" if user.enable else "Disable" }} |
+{% for user in all_users %}| {{ user.username }} | {{ user.password }} | {{ "Включен" if user.enable else "Отключен" }} |
 {% endfor %} 
 
-## Recommended Actions
+**Рекомендации по устранению:**
 
-- Use a tool for password and account configuration analysis in Active Directory to identify accounts vulnerable to AS-REP Roasting — i.e., those with the "Do not require Kerberos preauthentication" flag enabled (e.g., AD Sonar — [adsonar.ru](https://adsonar.ru/)).
+- использовать инструменты для анализа конфигурации паролей и аккаунтов в Active Directory для выявления аккаунтов, уязвимых к AS-REP Roasting — то есть тех, у которых включён флаг "Не требовать предварительной аутентификации Kerberos";
 
-- Disable the "Do not require Kerberos preauthentication" option (`DONT_REQUIRE_PREAUTH` flag) for all domain accounts, unless explicitly required for operational purposes. Special attention should be paid to accounts with elevated privileges.
+- отключить опцию "Не требовать предварительной аутентификации Kerberos" (флаг `DONT_REQUIRE_PREAUTH`) для всех доменных аккаунтов, если это явно не требуется для операционных целей. Особое внимание следует уделить аккаунтам с повышенными привилегиями;
 
-- Where the use of this flag is operationally justified, apply compensating controls such as strong, non-dictionary passwords and close monitoring for abnormal Kerberos authentication requests.
+- в случаях, когда использование этого флага операционно обосновано, применить компенсирующие меры контроля, такие как сложные, не словарные пароли и тщательный мониторинг аномальных запросов аутентификации Kerberos.

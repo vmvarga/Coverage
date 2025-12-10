@@ -12,11 +12,11 @@ class ReportBuilder:
     
     def build_report(self, results: List[Dict[str, Any]]) -> None:
         """Build final report from module results"""
-        with open(self.output_path, 'w') as f:
+        with open(self.output_path, 'w', encoding='utf-8') as f:
             for result in results:
                 if 'template' in result and 'module_name' in result:
-                    # Construct path to module-specific template
-                    template_path = os.path.join(result['module_name'], result['template'])
+                    # Construct path to module-specific template (use forward slashes for Jinja2 compatibility)
+                    template_path = f"{result['module_name']}/{result['template']}"
                     template = self.env.get_template(template_path)
                     f.write(template.render(**result))
                     f.write('\n\n') 

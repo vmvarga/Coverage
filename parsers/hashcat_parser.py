@@ -19,7 +19,7 @@ class HashcatParser(IParser):
     def load_data(self) -> None:
         """Load Hashcat data from file"""
         try:
-            with open(self.output_path, 'r') as f:
+            with open(self.output_path, 'r', encoding='utf-8') as f:
                 for line in f:
                     entry = self._parse_line(line)
                     if entry:

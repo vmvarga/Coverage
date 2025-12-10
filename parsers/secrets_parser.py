@@ -34,7 +34,7 @@ class SecretsParser(IParser):
                     continue  # Skip kerberos files for now
                 
                 file_type = 'cleartext' if ntds_path.endswith('.cleartext') else 'ntds'
-                with open(ntds_path, 'r') as f:
+                with open(ntds_path, 'r', encoding='utf-8') as f:
                     for line in f:
                         entry = self._parse_line(line, file_type)
                         if entry:

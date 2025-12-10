@@ -1,20 +1,23 @@
-# Password Reuse Vulnerability Report
+### Повторное использование паролей
 
-## Summary
-Found {{ total_found }} instances of password reuse with administrative accounts.
+**Уровень опасности:** [Высокий]{.high}
 
-Password reuse across administrative accounts significantly increases the risk of lateral movement and privilege escalation in the event of a single account compromise. If an attacker gains access to one system or user, reused credentials can enable access to other critical systems without further exploitation. This undermines segmentation and containment strategies, and may lead to full domain compromise, data breaches, and disruption of business operations.
+**Адрес:**
 
-## Password Reuse Details
-| Admin Account | Reuse Accounts | Password |
+**Описание:**
+
+В ходе анализа обнаружено {{ total_found }} случаев повторного использования паролей административных аккаунтов. Повторное использование паролей между административными аккаунтами значительно увеличивает риск бокового движения и повышения привилегий в случае компрометации одного аккаунта. Если злоумышленник получает доступ к одной системе или пользователю, повторно используемые учётные данные могут обеспечить доступ к другим критически важным системам без дополнительной эксплуатации. Это подрывает стратегии сегментации и сдерживания и может привести к полной компрометации домена, утечкам данных и нарушению бизнес-процессов.
+
+## Детали повторного использования паролей
+| Административный аккаунт | Аккаунты с повторным использованием | Пароль |
 |---------------|----------------|----------|
 {% for item in password_reuse %}| {{ item.admin_account }} | {% for acc in item.reuse_accounts %}{{ acc }}<br>{% endfor %} | {{ item.password }} |
 {% endfor %} 
 
-## Recommended Actions
+**Рекомендации по устранению:**
 
-- Use a tool for password analysis in Active Directory to identify reused passwords among domain accounts (e.g., AD Sonar — [adsonar.ru](https://adsonar.ru/)).
+- использовать инструмент для анализа паролей в Active Directory для выявления повторно используемых паролей среди доменных аккаунтов;
 
-- Define and enforce a policy that requires the use of unique, strong passwords for all administrative accounts to prevent reuse across systems and services.
+- определить и внедрить политику, требующую использования уникальных, надёжных паролей для всех административных аккаунтов, чтобы предотвратить повторное использование между системами и сервисами;
 
-- Implement automatic generation and scheduled rotation of unique, strong local administrator passwords for each computer using Microsoft LAPS ([Local Administrator Password Solution](https://technet.microsoft.com/en-us/mt227395.aspx)).
+- внедрить автоматическую генерацию и плановую ротацию уникальных, надёжных паролей локальных администраторов для каждого компьютера с использованием Microsoft LAPS ([Local Administrator Password Solution](https://technet.microsoft.com/en-us/mt227395.aspx)).

@@ -100,16 +100,28 @@ def mask_password(password: str) -> str:
         Masked password string
     """
     if not password:
-        return "***"
+        return "N/A"
         
     length = len(password)
     
     if length > 4:
-        return f"{password[:2]}***{password[-2:]}"
+        masked_password = f"{password[:2]}***{password[-2:]}"
     elif length > 2:
-        return f"{password[0]}***{password[-1]}"
+        masked_password = f"{password[0]}***{password[-1]}"
     else:
         return "***"
+
+    return escape_password(masked_password)
+
+
+def escape_password(password: str) -> str:
+    """Escape password for display in reports"""
+    if '$%' in password:
+        password = password.replace('$%', '\$\%')
+    if password.startswith('$'):
+        password = password.replace('$', '\$')
+    return password
+
 
 def get_domain_admin_recursive_groups(domain, da_groups: List[str]) -> List[str]:    
     """Get SIDs of domain admin groups

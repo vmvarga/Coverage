@@ -17,7 +17,7 @@ class ModuleLoader:
             if os.path.isdir(module_path):
                 module = self._load_module(module_path)
                 if module:
-                    modules[module_path.split("/")[-1]] = module
+                    modules[os.path.basename(module_path)] = module
         return modules
     
     def load_specific_modules(self, module_names: List[str]) -> List[IModule]:
@@ -28,7 +28,7 @@ class ModuleLoader:
             if os.path.isdir(module_path):
                 module = self._load_module(module_path)
                 if module:
-                    modules[module_path.split("/")[-1]] = module
+                    modules[os.path.basename(module_path)] = module
         return modules
 
     def _load_module(self, module_path: str) -> IModule:
