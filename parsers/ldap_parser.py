@@ -1,4 +1,5 @@
 import json
+import os
 from typing import Dict, Any, List, Optional
 from core.interfaces import IParser
 from core.domain_state import DomainState
@@ -111,13 +112,15 @@ class LdapParser(IParser):
 
     def _get_parser_for_file(self, file_path: str) -> Optional[BaseLdapParser]:
         """Get appropriate parser for file based on its name"""
-        filename = file_path.lower()
-        if 'users' in filename:
-            return UserParser(file_path)
-        elif 'groups' in filename:
-            return GroupParser(file_path)
-        elif 'computers' in filename:
+        # Use only basename when selecting parser
+        basename = os.path.basename(file_path).lower()
+        
+        if 'computers' in basename:
             return ComputerParser(file_path)
+        elif 'users' in basename:
+            return UserParser(file_path)
+        elif 'groups' in basename:
+            return GroupParser(file_path)
         return None
 
     def validate_format(self) -> bool:

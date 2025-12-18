@@ -25,8 +25,11 @@ class UnconstrainedDelegationModule(IModule):
                     "is_enabled": user.enabled
                 })
         
-        # Process computers
+        # Process computers (excluding domain controllers)
         for computer in domain_state.computers.values():
+            # Skip domain controllers (SERVER_TRUST_ACCOUNT flag = 0x2000)
+            if computer.user_account_control & 0x2000:
+                continue
             if computer.user_account_control & 0x80000:  # TRUSTED_FOR_DELEGATION flag
                 findings.append({
                     "account": computer.sam_account_name,
