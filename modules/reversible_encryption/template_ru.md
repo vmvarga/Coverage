@@ -1,22 +1,28 @@
-# Reversible Encryption Vulnerability Report
+### Обратимое шифрование
 
-## Summary
-Found {{ total_found }} accounts with reversible encryption enabled{% if total_admins_enabled > 0 %}, including {{ total_admins_enabled }} privileged and enabled accounts.{% else %}.{% endif %}
+**Уровень опасности:** [Высокий]{.high}
 
-When reversible encryption is enabled for an account in Active Directory, the password is stored in a format that can be easily decrypted to plain text by any process or user with the appropriate permissions. This significantly increases the risk of credential exposure through misconfigured access rights, backups, or compromised systems. If such an account has administrative privileges or is used in service integrations, an attacker gaining access to the decrypted password may escalate privileges or move laterally within the domain. Reversible encryption should only be used in rare, justified scenarios, as it weakens the overall security posture of the environment.
+**Адрес:**
 
-## Vulnerable Accounts Details
-| Account | Type | Status | Admin Rights | Password |
-|---------|------|---------|--------------|----------|
-{% for item in reversible_encryption %}| {{ item.account }} | {{ item.type }} | {% if item.is_enabled %}Enabled{% else %}Disabled{% endif %} | {% if item.is_admin %}Yes{% else %}No{% endif %} | {{ item.password }} |
+**Описание:**
+
+В ходе анализа обнаружено {{ total_found }} аккаунтов с включённым обратимым шифрованием{% if total_admins_enabled > 0 %}, включая {{ total_admins_enabled }} привилегированных и активных аккаунтов.{% else %}.{% endif %}
+
+Когда обратимое шифрование включено для аккаунта в Active Directory, пароль хранится в формате, который может быть легко расшифрован в открытый текст любым процессом или пользователем с соответствующими правами. Это значительно увеличивает риск раскрытия учётных данных из-за неправильно настроенных прав доступа, резервных копий или скомпрометированных систем. Если такой аккаунт имеет административные привилегии или используется в интеграциях сервисов, злоумышленник, получивший доступ к расшифрованному паролю, может повысить привилегии или переместиться в домене. Обратимое шифрование должно использоваться только в редких, обоснованных сценариях, так как оно ослабляет общую безопасность среды.
+
+**Уязвимые аккаунты:**
+
+| Аккаунт | Тип | Статус | Административные права | Пароль |
+|---------|-----|--------|------------------------|--------|
+{% for item in reversible_encryption %}| {{ item.account }} | {{ item.type }} | {% if item.is_enabled %}Включён{% else %}Отключён{% endif %} | {% if item.is_admin %}Да{% else %}Нет{% endif %} | {{ item.password }} |
 {% endfor %} 
 
-## Recommended Actions
+**Рекомендации по устранению:**
 
-- Disable reversible password encryption for all user accounts, unless explicitly required for a specific application or authentication mechanism.
+- отключить обратимое шифрование паролей для всех пользовательских аккаунтов, если это явно не требуется для конкретного приложения или механизма аутентификации;
 
-- Review domain and local password policies to ensure that reversible encryption is not enabled by default.
+- проверить политики паролей домена и локальные политики, чтобы убедиться, что обратимое шифрование не включено по умолчанию;
 
-- Educate administrators on the risks of reversible encryption and establish guidelines for secure password storage practices.
+- обучить администраторов рискам обратимого шифрования и установить руководящие принципы для безопасных практик хранения паролей;
 
-- Monitor Group Policy Objects (GPO) and account creation processes to prevent unintended re-enablement of reversible encryption settings.
+- отслеживать объекты групповой политики (GPO) и процессы создания аккаунтов, чтобы предотвратить непреднамеренное повторное включение настроек обратимого шифрования.
