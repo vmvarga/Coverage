@@ -97,11 +97,15 @@ def mask_password(password: str) -> str:
         password: Password to mask
         
     Returns:
-        Masked password string
+        Masked password string.
     """
+
+    if password == "":
+        return "Empty String"
+    
     if not password:
         return "N/A"
-        
+
     length = len(password)
     
     if length > 4:
